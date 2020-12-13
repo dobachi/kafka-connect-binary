@@ -1,9 +1,13 @@
 package org.apache.kafka.connect.binary;
 
+import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.utils.AppInfoParser;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceConnector;
+import org.apache.kafka.common.config.ConfigDef;
+import org.apache.kafka.common.config.ConfigDef.Importance;
+import org.apache.kafka.common.config.ConfigDef.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +35,20 @@ public class BinarySourceConnector extends SourceConnector {
     private String topic;
     private String use_dirwatcher;
     private String filename_path;
+
+    private static final ConfigDef CONFIG_DEF = new ConfigDef()
+            .define(USE_DIRWATCHER, Type.STRING, "true",
+                    Importance.HIGH, "Whether to use the dir watcher")
+            .define(DIR_PATH, Type.STRING, "./tmp", Importance.HIGH,
+                    "Path to watch")
+            .define(SCHEMA_NAME, Type.STRING, "filebinaryschema", Importance.MEDIUM,
+                    "The name of schema")
+            .define(TOPIC, Type.STRING, "file-binary", Importance.HIGH,
+                    "The topic to write data")
+            .define(FILE_PATH, Type.STRING, Importance.MEDIUM,
+                    "The target file (not using the dir watcher)")
+            .define(CHCK_DIR_MS, Type.INT, "1000", Importance.LOW,
+                    "The maximum number of records the Source task can read from file one time");
 
 
     /**
@@ -131,4 +149,8 @@ public class BinarySourceConnector extends SourceConnector {
 
     }
 
+    @Override
+    public ConfigDef config() {
+        return null;
+    }
 }
