@@ -151,6 +151,6 @@ public class BinarySourceConnector extends SourceConnector {
 
     @Override
     public ConfigDef config() {
-        return null;
+        return CONFIG_DEF;
     }
 }
